@@ -43,17 +43,18 @@ export default function RegisterPage() {
     }, [isAuthenticated, router]);
 
     const onSubmit = async (data) => {
-        // Simulate registration (FakeStore doesn't have real registration)
-        const userData = {
+        const payload = {
             email: data.email,
+            password: data.password,
             firstName: data.firstName,
             lastName: data.lastName,
             phone: data.phone,
             address: data.address,
         };
-
-        dispatch(registerUser(userData));
-        router.push('/');
+        const result = await dispatch(registerUser(payload));
+        if (registerUser.fulfilled.match(result)) {
+            router.push('/');
+        }
     };
 
     return (

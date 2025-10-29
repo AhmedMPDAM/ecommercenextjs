@@ -1,7 +1,22 @@
 {
-  "users": [],
-  "profiles": [],
+  "users": [
+    {
+      "email": "test@gmail.com",
+      "password": "$2a$10$1X7BiwiPDLVzeHGpum33IOnhzjeRdh/7xRnVFGCyhnk.daGx8MR1.",
+      "id": 1
+    }
+  ],
+  "profiles": [
+    {
+      "userId": 1,
+      "firstName": "Ahmedd",
+      "lastName": "Abk",
+      "email": "test@gmail.com",
+      "phone": "1111111111",
+      "address": "azeaze 11 4 ",
+      "id": 1
+    }
+  ],
   "orders": [],
   "wishlists": []
 }
-
