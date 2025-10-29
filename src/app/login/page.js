@@ -31,10 +31,9 @@ function LoginContent() {
   }, [isAuthenticated, router, redirect]);
 
   const onSubmit = async (data) => {
-    // FakeStore API credentials: username: "mor_2314", password: "83r5^_"
     const result = await dispatch(
       loginUser({
-        username: data.email, // FakeStore uses username field
+        email: data.email,
         password: data.password,
       })
     );
@@ -66,18 +65,7 @@ function LoginContent() {
 
             {/* Login Form Card */}
             <div className="bg-white rounded-3xl shadow-xl p-8">
-              {/* Demo Credentials Notice */}
-              <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-                <p className="text-sm text-blue-800 font-medium mb-2">
-                  Demo Credentials:
-                </p>
-                <p className="text-xs text-blue-700">
-                  Username: <span className="font-mono font-bold">mor_2314</span>
-                </p>
-                <p className="text-xs text-blue-700">
-                  Password: <span className="font-mono font-bold">83r5^_</span>
-                </p>
-              </div>
+              {/* Sign in to your account */}
 
               {/* Error Message */}
               {error && (

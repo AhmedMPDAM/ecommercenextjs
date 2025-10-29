@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { cartAPI } from '../../lib/api';
+import { createSlice } from '@reduxjs/toolkit';
 
 function loadCartFromStorageInline(prefer = 'local') {
   try {
@@ -18,42 +17,7 @@ function loadCartFromStorageInline(prefer = 'local') {
   }
 }
 
-// Async thunks
-export const fetchUserCart = createAsyncThunk(
-  'cart/fetchUserCart',
-  async (userId, { rejectWithValue }) => {
-    try {
-      const response = await cartAPI.getUserCart(userId);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || 'Failed to fetch cart');
-    }
-  }
-);
-
-export const addToCartAPI = createAsyncThunk(
-  'cart/addToCartAPI',
-  async (cartData, { rejectWithValue }) => {
-    try {
-      const response = await cartAPI.addCart(cartData);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || 'Failed to add to cart');
-    }
-  }
-);
-
-export const updateCartAPI = createAsyncThunk(
-  'cart/updateCartAPI',
-  async ({ id, cartData }, { rejectWithValue }) => {
-    try {
-      const response = await cartAPI.updateCart(id, cartData);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || 'Failed to update cart');
-    }
-  }
-);
+// Local-only cart state; persistence handled via middleware in store
 
 const persisted = loadCartFromStorageInline('local');
 
@@ -161,49 +125,7 @@ const cartSlice = createSlice({
     },
   },
   
-  extraReducers: (builder) => {
-    builder
-      // Fetch user cart
-      .addCase(fetchUserCart.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchUserCart.fulfilled, (state, action) => {
-        state.loading = false;
-        // Process cart data from API if needed
-        if (action.payload && action.payload.length > 0) {
-          // FakeStore API returns array of carts
-          const cart = action.payload[0];
-          // Process cart products here if needed
-        }
-      })
-      .addCase(fetchUserCart.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      // Add to cart API
-      .addCase(addToCartAPI.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(addToCartAPI.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(addToCartAPI.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      // Update cart API
-      .addCase(updateCartAPI.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(updateCartAPI.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(updateCartAPI.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
-  },
+  extraReducers: () => {},
 });
 
 export const {

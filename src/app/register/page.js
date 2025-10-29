@@ -258,7 +258,7 @@ export default function RegisterPage() {
                                                 },
                                                 pattern: {
                                                     value:
-                                                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+                                                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                                                     message:
                                                         'Password must include uppercase, lowercase, number, and special character',
                                                 },

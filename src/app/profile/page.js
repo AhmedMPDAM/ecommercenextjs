@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { fetchUserProfile, logout } from '../../store/slices/userSlice';
+import { profilesAPI, wishlistAPI, ordersAPI } from '../../lib/api';
 import Navbar from '../../components/Navbar';
 import {
   User,
@@ -38,6 +39,9 @@ export default function ProfilePage() {
     phone: '',
     address: '',
   });
+  const [profileId, setProfileId] = useState(null);
+  const [wishlist, setWishlist] = useState([]);
+  const [orderHistory, setOrderHistory] = useState([]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -45,21 +49,30 @@ export default function ProfilePage() {
       return;
     }
 
-    // Fetch user profile from FakeStore API
-    const userId = localStorage.getItem('userId') || '1';
-    dispatch(fetchUserProfile(userId));
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      dispatch(fetchUserProfile(userId));
+      // Load wishlist and orders from protected resources
+      wishlistAPI
+        .listMine()
+        .then((res) => setWishlist(Array.isArray(res.data) ? res.data : []))
+        .catch(() => setWishlist([]));
+      ordersAPI
+        .listMine()
+        .then((res) => setOrderHistory(Array.isArray(res.data) ? res.data : []))
+        .catch(() => setOrderHistory([]));
+    }
   }, [isAuthenticated, dispatch, router]);
 
   useEffect(() => {
     if (user) {
+      if (user.id) setProfileId(user.id);
       setFormData({
-        firstName: user.name?.firstname || '',
-        lastName: user.name?.lastname || '',
+        firstName: user.firstName || user.first_name || '',
+        lastName: user.lastName || user.last_name || '',
         email: user.email || '',
         phone: user.phone || '',
-        address: user.address
-          ? `${user.address.street}, ${user.address.city}, ${user.address.zipcode}`
-          : '',
+        address: user.address || '',
       });
     }
   }, [user]);
@@ -71,10 +84,25 @@ export default function ProfilePage() {
     });
   };
 
-  const handleSaveProfile = () => {
-    // Save profile updates (simulated)
-    setIsEditing(false);
-    alert('Profile updated successfully!');
+  const handleSaveProfile = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (!userId) return;
+      // find profile row
+      let id = profileId;
+      if (!id) {
+        const res = await profilesAPI.getMine(userId);
+        const row = Array.isArray(res.data) ? res.data[0] : null;
+        id = row?.id;
+      }
+      if (id) {
+        await profilesAPI.update(id, { ...formData, userId: Number(userId) });
+      }
+      setIsEditing(false);
+      alert('Profile updated successfully!');
+    } catch {
+      alert('Failed to update profile');
+    }
   };
 
   const handleLogout = () => {
@@ -82,46 +110,7 @@ export default function ProfilePage() {
     router.push('/');
   };
 
-  // Mock order history data
-  const orderHistory = [
-    {
-      id: '1',
-      date: '2024-10-15',
-      total: 129.99,
-      status: 'Delivered',
-      items: 3,
-    },
-    {
-      id: '2',
-      date: '2024-10-10',
-      total: 79.99,
-      status: 'In Transit',
-      items: 2,
-    },
-    {
-      id: '3',
-      date: '2024-10-05',
-      total: 199.99,
-      status: 'Delivered',
-      items: 5,
-    },
-  ];
-
-  // Mock wishlist data
-  const wishlist = [
-    {
-      id: 1,
-      title: 'Premium Wireless Headphones',
-      price: 99.99,
-      image: 'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',
-    },
-    {
-      id: 2,
-      title: 'Smart Watch Pro',
-      price: 299.99,
-      image: 'https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg',
-    },
-  ];
+  // wishlist and orderHistory are loaded from API
 
   if (loading) {
     return (
