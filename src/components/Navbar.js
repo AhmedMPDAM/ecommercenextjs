@@ -129,7 +129,7 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="hidden md:block px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-lg font-medium hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                className="hidden md:block px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 btn-brand"
               >
                 Sign In
               </Link>

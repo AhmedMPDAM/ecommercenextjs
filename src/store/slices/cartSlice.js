@@ -1,6 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { cartAPI } from '../../lib/api';
 
+function loadCartFromStorageInline(prefer = 'local') {
+  try {
+    if (typeof window === 'undefined') return null;
+    const primary = prefer === 'session' ? window.sessionStorage : window.localStorage;
+    const secondary = prefer === 'session' ? window.localStorage : window.sessionStorage;
+    const raw = primary?.getItem('cart') ?? secondary?.getItem('cart');
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === 'object' && Array.isArray(parsed.items)) {
+      return parsed;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 // Async thunks
 export const fetchUserCart = createAsyncThunk(
   'cart/fetchUserCart',
@@ -38,7 +55,9 @@ export const updateCartAPI = createAsyncThunk(
   }
 );
 
-const initialState = {
+const persisted = loadCartFromStorageInline('local');
+
+const initialState = persisted || {
   items: [],
   totalQuantity: 0,
   totalAmount: 0,
