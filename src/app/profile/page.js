@@ -15,8 +15,7 @@ import {
   Save,
   X,
   Package,
-  Heart,
-  Settings,
+  Heart, 
   LogOut,
   Loader2,
   ShoppingBag,
@@ -235,18 +234,7 @@ export default function ProfilePage() {
                     <span>Wishlist</span>
                   </button>
 
-                  <button
-                    onClick={() => setActiveTab('settings')}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
-                      activeTab === 'settings'
-                        ? 'bg-primary-50 text-primary-700'
-                        : 'text-gray-700 hover:bg-gray-50'
-                    }`}
-                  >
-                    <Settings className="w-5 h-5" />
-                    <span>Settings</span>
-                  </button>
-
+                
                   <button
                     onClick={handleLogout}
                     className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-red-600 hover:bg-red-50 transition-all duration-200"
@@ -487,91 +475,7 @@ export default function ProfilePage() {
                 </div>
               )}
 
-              {/* Settings Tab */}
-              {activeTab === 'settings' && (
-                <div className="bg-white rounded-2xl shadow-lg p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                    Account Settings
-                  </h2>
-
-                  <div className="space-y-6">
-                    {/* Notification Settings */}
-                    <div className="border-b border-gray-200 pb-6">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                        Notifications
-                      </h3>
-                      <div className="space-y-3">
-                        <label className="flex items-center justify-between cursor-pointer">
-                          <span className="text-gray-700">
-                            Email notifications
-                          </span>
-                          <input
-                            type="checkbox"
-                            defaultChecked
-                            className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
-                          />
-                        </label>
-                        <label className="flex items-center justify-between cursor-pointer">
-                          <span className="text-gray-700">
-                            Order updates
-                          </span>
-                          <input
-                            type="checkbox"
-                            defaultChecked
-                            className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
-                          />
-                        </label>
-                        <label className="flex items-center justify-between cursor-pointer">
-                          <span className="text-gray-700">
-                            Promotional emails
-                          </span>
-                          <input
-                            type="checkbox"
-                            className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
-                          />
-                        </label>
-                      </div>
-                    </div>
-
-                    {/* Privacy Settings */}
-                    <div className="border-b border-gray-200 pb-6">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                        Privacy
-                      </h3>
-                      <div className="space-y-3">
-                        <label className="flex items-center justify-between cursor-pointer">
-                          <span className="text-gray-700">
-                            Show profile publicly
-                          </span>
-                          <input
-                            type="checkbox"
-                            className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
-                          />
-                        </label>
-                        <label className="flex items-center justify-between cursor-pointer">
-                          <span className="text-gray-700">
-                            Share purchase history
-                          </span>
-                          <input
-                            type="checkbox"
-                            className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
-                          />
-                        </label>
-                      </div>
-                    </div>
-
-                    {/* Danger Zone */}
-                    <div>
-                      <h3 className="text-lg font-semibold text-red-600 mb-4">
-                        Danger Zone
-                      </h3>
-                      <button className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium">
-                        Delete Account
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+             
             </div>
           </div>
         </div>

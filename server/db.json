@@ -4,6 +4,11 @@
       "email": "test@gmail.com",
       "password": "$2a$10$1X7BiwiPDLVzeHGpum33IOnhzjeRdh/7xRnVFGCyhnk.daGx8MR1.",
       "id": 1
+    },
+    {
+      "email": "ahmedabktest@gmail.com",
+      "password": "$2a$10$XaR0qYw9NbS6ZFMGMoGnxuLriwK8gTXCM/eG8HE7918WPxyjurSy2",
+      "id": 2
     }
   ],
   "profiles": [
@@ -15,6 +20,15 @@
       "phone": "1111111111",
       "address": "azeaze 11 4 ",
       "id": 1
+    },
+    {
+      "userId": 2,
+      "firstName": "Ahmed",
+      "lastName": "Abdelkader",
+      "email": "ahmedabktest@gmail.com",
+      "phone": "1234567890",
+      "address": "12345 a eaze dd ",
+      "id": 2
     }
   ],
   "orders": [],
