@@ -63,11 +63,12 @@ export const profilesAPI = {
 };
 
 export const ordersAPI = {
-  listMine: () => api.get('/orders'),
+  listMine: (userId) => api.get('/orders', { params: { userId } }),
+  create: (data) => api.post('/orders', data),
 };
 
 export const wishlistAPI = {
-  listMine: () => api.get('/wishlists'),
+  listMine: (userId) => api.get('/wishlists', { params: { userId } }),
   add: (item) => api.post('/wishlists', item),
   remove: (id) => api.delete(`/wishlists/${id}`),
 };

@@ -31,6 +31,59 @@
       "id": 2
     }
   ],
-  "orders": [],
-  "wishlists": []
+  "orders": [
+    {
+      "userId": 2,
+      "status": "Placed",
+      "date": "10/30/2025",
+      "items": 3,
+      "total": 95.01,
+      "lineItems": [
+        {
+          "id": 4,
+          "title": "Mens Casual Slim Fit",
+          "price": 15.99,
+          "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_t.png",
+          "quantity": 2,
+          "totalPrice": 31.98
+        },
+        {
+          "id": 3,
+          "title": "Mens Cotton Jacket",
+          "price": 55.99,
+          "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
+          "quantity": 1,
+          "totalPrice": 55.99
+        }
+      ],
+      "shipping": {
+        "firstName": "Ahmed",
+        "lastName": "Abdelkader",
+        "address": "Ben Arous",
+        "city": "Kébelli",
+        "state": "Tunis",
+        "zipCode": "10021",
+        "phone": "21796920"
+      },
+      "id": 1
+    }
+  ],
+  "wishlists": [
+    {
+      "userId": 2,
+      "productId": 2,
+      "title": "Mens Casual Premium Slim Fit T-Shirts ",
+      "image": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
+      "price": 22.3,
+      "id": 1
+    },
+    {
+      "userId": 2,
+      "productId": 10,
+      "title": "SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s",
+      "image": "https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_t.png",
+      "price": 109,
+      "id": 2
+    }
+  ]
 }

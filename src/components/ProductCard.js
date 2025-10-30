@@ -6,6 +6,7 @@ import { ShoppingCart, Star, Heart } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/slices/cartSlice';
 import { useState } from 'react';
+import { wishlistAPI } from '../lib/api';
 
 export default function ProductCard({ product }) {
   const dispatch = useDispatch();
@@ -20,10 +21,28 @@ export default function ProductCard({ product }) {
     setTimeout(() => setIsAdding(false), 1000);
   };
 
-  const toggleFavorite = (e) => {
+  const toggleFavorite = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsFavorite(!isFavorite);
+    try {
+      const userId = typeof window !== 'undefined' ? localStorage.getItem('userId') : null;
+      if (!userId) {
+        // silently ignore if not logged in; could also redirect to login
+        return;
+      }
+      if (!isFavorite) {
+        await wishlistAPI.add({
+          userId: Number(userId),
+          productId: product.id,
+          title: product.title,
+          image: product.image,
+          price: product.price,
+        });
+      }
+      setIsFavorite(!isFavorite);
+    } catch {
+      // ignore errors for now
+    }
   };
 
   return (

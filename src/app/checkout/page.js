@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { clearCart } from '../../store/slices/cartSlice';
 import { useForm } from 'react-hook-form';
 import Navbar from '../../components/Navbar';
+import { ordersAPI } from '../../lib/api';
 import Image from 'next/image';
 import {
     CreditCard,
@@ -83,9 +84,31 @@ export default function CheckoutPage() {
         setIsProcessing(true);
 
         // Simulate payment processing
-        setTimeout(() => {
-            const generatedOrderNumber = 'ORD-' + Date.now();
-            setOrderNumber(generatedOrderNumber);
+        setTimeout(async () => {
+            try {
+                const userId = typeof window !== 'undefined' ? Number(localStorage.getItem('userId')) : null;
+                const orderPayload = {
+                    userId,
+                    status: 'Placed',
+                    date: new Date().toLocaleDateString(),
+                    items: items.reduce((sum, it) => sum + (it.quantity || 1), 0),
+                    total: Number(finalTotal.toFixed(2)),
+                    lineItems: items,
+                    shipping: {
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        address: data.address,
+                        city: data.city,
+                        state: data.state,
+                        zipCode: data.zipCode,
+                        phone: data.phone,
+                    },
+                };
+                const res = await ordersAPI.create(orderPayload);
+                const id = res?.data?.id || Date.now();
+                const generatedOrderNumber = 'ORD-' + id;
+                setOrderNumber(generatedOrderNumber);
+            } catch {}
             setOrderComplete(true);
             dispatch(clearCart());
             setIsProcessing(false);

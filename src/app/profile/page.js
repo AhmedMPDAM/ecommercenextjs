@@ -53,11 +53,11 @@ export default function ProfilePage() {
       dispatch(fetchUserProfile(userId));
       // Load wishlist and orders from protected resources
       wishlistAPI
-        .listMine()
+        .listMine(userId)
         .then((res) => setWishlist(Array.isArray(res.data) ? res.data : []))
         .catch(() => setWishlist([]));
       ordersAPI
-        .listMine()
+        .listMine(userId)
         .then((res) => setOrderHistory(Array.isArray(res.data) ? res.data : []))
         .catch(() => setOrderHistory([]));
     }
