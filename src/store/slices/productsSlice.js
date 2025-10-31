@@ -82,8 +82,11 @@ const productsSlice = createSlice({
       state.searchQuery = action.payload;
       // Filter products based on search query
       if (action.payload) {
+        // Filter from the current items
         state.filteredProducts = state.items.filter(product =>
-          product.title.toLowerCase().includes(action.payload.toLowerCase())
+          product.title.toLowerCase().includes(action.payload.toLowerCase()) ||
+          product.description?.toLowerCase().includes(action.payload.toLowerCase()) ||
+          product.category?.toLowerCase().includes(action.payload.toLowerCase())
         );
       } else {
         state.filteredProducts = state.items;
@@ -109,7 +112,16 @@ const productsSlice = createSlice({
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
-        state.filteredProducts = action.payload;
+        // Apply search filter if exists
+        if (state.searchQuery) {
+          state.filteredProducts = action.payload.filter(product =>
+            product.title.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+            product.description?.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+            product.category?.toLowerCase().includes(state.searchQuery.toLowerCase())
+          );
+        } else {
+          state.filteredProducts = action.payload;
+        }
       })
       .addCase(fetchAllProducts.rejected, (state, action) => {
         state.loading = false;
@@ -148,7 +160,17 @@ const productsSlice = createSlice({
       })
       .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
         state.loading = false;
-        state.filteredProducts = action.payload;
+        state.items = action.payload;
+        // Apply search filter if exists
+        if (state.searchQuery) {
+          state.filteredProducts = action.payload.filter(product =>
+            product.title.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+            product.description?.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+            product.category?.toLowerCase().includes(state.searchQuery.toLowerCase())
+          );
+        } else {
+          state.filteredProducts = action.payload;
+        }
       })
       .addCase(fetchProductsByCategory.rejected, (state, action) => {
         state.loading = false;
