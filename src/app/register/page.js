@@ -19,6 +19,7 @@ import {
     AlertCircle,
     CheckCircle,
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function RegisterPage() {
     const dispatch = useDispatch();
@@ -53,7 +54,21 @@ export default function RegisterPage() {
         };
         const result = await dispatch(registerUser(payload));
         if (registerUser.fulfilled.match(result)) {
+            toast.success('Account created successfully! Welcome!');
             router.push('/');
+        } else if (registerUser.rejected.match(result)) {
+            const errorMessage = result.payload || 'Registration failed';
+            if (typeof errorMessage === 'string') {
+                if (errorMessage.toLowerCase().includes('email') && (errorMessage.toLowerCase().includes('exist') || errorMessage.toLowerCase().includes('already'))) {
+                    toast.error('Email already exists. Please use a different email.');
+                } else if (errorMessage.toLowerCase().includes('email')) {
+                    toast.error('Invalid email format.');
+                } else {
+                    toast.error('Registration failed. Please try again.');
+                }
+            } else {
+                toast.error('Registration failed. Please try again.');
+            }
         }
     };
 
@@ -79,7 +94,15 @@ export default function RegisterPage() {
 
                         {/* Register Form Card */}
                         <div className="bg-white rounded-3xl shadow-xl p-8">
-                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                            <form onSubmit={handleSubmit((data) => {
+                                // Form validation errors are handled by react-hook-form
+                                onSubmit(data);
+                            }, (errors) => {
+                                // Handle form validation errors
+                                if (Object.keys(errors).length > 0) {
+                                    toast.error('Invalid form. Please check all fields.');
+                                }
+                            })} className="space-y-6">
                                 {/* Name Fields */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {/* First Name */}

@@ -7,6 +7,7 @@ import { wishlistAPI } from '../../../lib/api';
 import { addToCart } from '../../../store/slices/cartSlice';
 import ProfileLayout from '../../../components/ProfileLayout';
 import { Heart, ShoppingCart, Trash2, Loader2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function WishlistPage() {
   const dispatch = useDispatch();
@@ -34,16 +35,17 @@ export default function WishlistPage() {
       price: item.price,
       image: item.image,
     }));
-    // You could show a toast notification here
+    toast.success('Added to cart!');
   };
 
   const handleRemoveFromWishlist = async (id) => {
     try {
       await wishlistAPI.remove(id);
       setWishlist(wishlist.filter(item => item.id !== id));
+      toast.success('Removed from wishlist');
     } catch (error) {
       console.error('Failed to remove from wishlist:', error);
-      alert('Failed to remove from wishlist');
+      toast.error('Failed to remove from wishlist');
     }
   };
 

@@ -19,6 +19,7 @@ import {
     ArrowLeft,
     Loader2,
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function CheckoutPage() {
     const dispatch = useDispatch();
@@ -108,7 +109,10 @@ export default function CheckoutPage() {
                 const id = res?.data?.id || Date.now();
                 const generatedOrderNumber = 'ORD-' + id;
                 setOrderNumber(generatedOrderNumber);
-            } catch {}
+                toast.success('Order placed successfully! Thank you for your purchase.');
+            } catch (error) {
+                toast.error('Failed to place order. Please try again.');
+            }
             setOrderComplete(true);
             dispatch(clearCart());
             setIsProcessing(false);

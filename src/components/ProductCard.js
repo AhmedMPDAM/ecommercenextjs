@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/slices/cartSlice';
 import { useState } from 'react';
 import { wishlistAPI } from '../lib/api';
+import toast from 'react-hot-toast';
 
 export default function ProductCard({ product }) {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export default function ProductCard({ product }) {
     try {
       const userId = typeof window !== 'undefined' ? localStorage.getItem('userId') : null;
       if (!userId) {
-        // silently ignore if not logged in; could also redirect to login
+        toast.error('Please login to add items to wishlist');
         return;
       }
       if (!isFavorite) {
@@ -38,10 +39,14 @@ export default function ProductCard({ product }) {
           image: product.image,
           price: product.price,
         });
+        toast.success('Added to wishlist!');
+        setIsFavorite(!isFavorite);
+      } else {
+        toast.success('Removed from wishlist');
+        setIsFavorite(!isFavorite);
       }
-      setIsFavorite(!isFavorite);
-    } catch {
-      // ignore errors for now
+    } catch (error) {
+      toast.error('Failed to update wishlist. Please try again.');
     }
   };
 

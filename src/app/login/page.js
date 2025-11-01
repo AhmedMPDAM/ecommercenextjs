@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import Navbar from '../../components/Navbar';
 import Link from 'next/link';
 import { Eye, EyeOff, Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 function LoginContent() {
   const dispatch = useDispatch();
@@ -39,7 +40,21 @@ function LoginContent() {
     );
 
     if (loginUser.fulfilled.match(result)) {
+      toast.success('Login successful! Welcome back!');
       router.push(redirect);
+    } else if (loginUser.rejected.match(result)) {
+      const errorMessage = result.payload || 'Login failed';
+      if (typeof errorMessage === 'string') {
+        if (errorMessage.toLowerCase().includes('password')) {
+          toast.error('Wrong password. Please try again.');
+        } else if (errorMessage.toLowerCase().includes('email') || errorMessage.toLowerCase().includes('user')) {
+          toast.error('Wrong email or user not found.');
+        } else {
+          toast.error('Login failed. Please check your credentials.');
+        }
+      } else {
+        toast.error('Login failed. Please check your credentials.');
+      }
     }
   };
 
@@ -82,7 +97,15 @@ function LoginContent() {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={handleSubmit((data) => {
+                // Form validation errors are handled by react-hook-form
+                onSubmit(data);
+              }, (errors) => {
+                // Handle form validation errors
+                if (Object.keys(errors).length > 0) {
+                  toast.error('Invalid form. Please check all fields.');
+                }
+              })} className="space-y-6">
                 {/* Email/Username Field */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-900 mb-2">
