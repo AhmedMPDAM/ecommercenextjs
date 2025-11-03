@@ -63,10 +63,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
             <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-              <span className="text-white font-bold text-xl">E</span>
+              <span className="text-white font-bold text-xl">AS</span>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
-              ModernShop
+              Abk Shop
             </span>
           </Link>
 

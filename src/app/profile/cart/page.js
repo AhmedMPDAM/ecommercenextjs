@@ -2,20 +2,9 @@
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import {
-  removeFromCart,
-  increaseQuantity,
-  decreaseQuantity,
-  clearCart,
-} from '../../../store/slices/cartSlice';
+import { removeFromCart, increaseQuantity, decreaseQuantity, clearCart,} from '../../../store/slices/cartSlice';
 import ProfileLayout from '../../../components/ProfileLayout';
-import {
-  ShoppingCart,
-  Plus,
-  Minus,
-  Trash2,
-  Loader2,
-} from 'lucide-react';
+import { ShoppingCart, Plus, Minus, Trash2,} from 'lucide-react';
 
 export default function CartPage() {
   const dispatch = useDispatch();

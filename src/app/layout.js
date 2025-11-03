@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Modern E-Commerce Store</title>
+        <title>Abk Shop</title>
         <meta name="description" content="Shop the latest products with great deals" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>

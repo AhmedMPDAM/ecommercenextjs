@@ -11,21 +11,7 @@ import { addToCart } from '../../../store/slices/cartSlice';
 import Navbar from '../../../components/Navbar';
 import ProductCard from '../../../components/ProductCard';
 import Image from 'next/image';
-import {
-  Star,
-  ShoppingCart,
-  Heart,
-  Share2,
-  Truck,
-  Shield,
-  RotateCcw,
-  Minus,
-  Plus,
-  Loader2,
-  Check,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
+import { Star, ShoppingCart, Heart, Share2, Truck, Shield, RotateCcw, Minus, Plus, Loader2, Check, ChevronLeft, ChevronRight,} from 'lucide-react';
 import toast from 'react-hot-toast';
 import { wishlistAPI } from '../../../lib/api';
 
@@ -55,8 +41,7 @@ export default function ProductDetailPage() {
       dispatch(fetchProductsByCategory(selectedProduct.category));
     }
   }, [dispatch, selectedProduct?.category]);
-
-  // Create multiple image variations (FakeStore only provides one image)
+ 
   const productImages = selectedProduct
     ? [
         selectedProduct.image,
@@ -106,8 +91,7 @@ export default function ProductDetailPage() {
         });
         toast.success('Added to wishlist!');
         setIsFavorite(true);
-      } else {
-        // Note: To remove, we'd need the wishlist item ID, but for now just toggle the UI
+      } else { 
         toast.success('Removed from wishlist');
         setIsFavorite(false);
       }

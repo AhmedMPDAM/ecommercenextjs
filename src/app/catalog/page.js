@@ -3,21 +3,10 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
-import {
-  fetchAllProducts,
-  fetchProductsByCategory,
-  setSearchQuery,
-} from '../../store/slices/productsSlice';
+import { fetchAllProducts, fetchProductsByCategory, setSearchQuery, } from '../../store/slices/productsSlice';
 import Navbar from '../../components/Navbar';
 import ProductCard from '../../components/ProductCard';
-import {
-  SlidersHorizontal,
-  X,
-  ChevronDown,
-  Loader2,
-  Grid3x3,
-  List,
-} from 'lucide-react';
+import {SlidersHorizontal,X,Loader2,Grid3x3,List,} from 'lucide-react';
 
 function CatalogContent() {
   const dispatch = useDispatch();

@@ -8,17 +8,7 @@ import { useForm } from 'react-hook-form';
 import Navbar from '../../components/Navbar';
 import { ordersAPI } from '../../lib/api';
 import Image from 'next/image';
-import {
-    CreditCard,
-    Truck,
-    MapPin,
-    CheckCircle,
-    AlertCircle,
-    Lock,
-    ArrowRight,
-    ArrowLeft,
-    Loader2,
-} from 'lucide-react';
+import {CreditCard,Truck,MapPin,CheckCircle,Lock,ArrowRight,ArrowLeft,Loader2,} from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function CheckoutPage() {

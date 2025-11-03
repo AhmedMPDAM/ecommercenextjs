@@ -4,23 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 import Image from 'next/image';
-import {
-  removeFromCart,
-  increaseQuantity,
-  decreaseQuantity,
-  clearCart,
-} from '../../store/slices/cartSlice';
-import {
-  Trash2,
-  Plus,
-  Minus,
-  ShoppingBag,
-  ArrowRight,
-  Tag,
-  Truck,
-  Shield,
-  AlertCircle,
-} from 'lucide-react';
+import { removeFromCart, increaseQuantity, decreaseQuantity, clearCart,} from '../../store/slices/cartSlice';
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Tag, Truck, Shield, AlertCircle,} from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -37,7 +22,7 @@ export default function CartPage() {
   const [promoError, setPromoError] = useState('');
 
   const shippingCost = totalAmount > 50 ? 0 : 5.99;
-  const taxRate = 0.08; // 8% tax
+  const taxRate = 0.08; 
   const taxAmount = totalAmount * taxRate;
   const finalTotal = totalAmount + shippingCost + taxAmount - discount;
 

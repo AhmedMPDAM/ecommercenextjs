@@ -7,18 +7,7 @@ import { registerUser } from '../../store/slices/userSlice';
 import { useForm } from 'react-hook-form';
 import Navbar from '../../components/Navbar';
 import Link from 'next/link';
-import {
-    Eye,
-    EyeOff,
-    Mail,
-    Lock,
-    User,
-    MapPin,
-    Phone,
-    Loader2,
-    AlertCircle,
-    CheckCircle,
-} from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, MapPin, Phone, Loader2, AlertCircle, CheckCircle,} from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function RegisterPage() {
@@ -215,8 +204,8 @@ export default function RegisterPage() {
                                             {...register('phone', {
                                                 required: 'Phone number is required',
                                                 pattern: {
-                                                    value: /^[0-9]{10}$/,
-                                                    message: 'Invalid phone number (10 digits)',
+                                                    value: /^[0-9]{8}$/,
+                                                    message: 'Invalid phone number (8 digits)',
                                                 },
                                             })}
                                             className={`w-full pl-12 pr-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ${errors.phone ? 'border-red-500' : 'border-gray-300'

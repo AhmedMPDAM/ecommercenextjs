@@ -9,6 +9,11 @@
       "email": "ahmedabktest@gmail.com",
       "password": "$2a$10$XaR0qYw9NbS6ZFMGMoGnxuLriwK8gTXCM/eG8HE7918WPxyjurSy2",
       "id": 2
+    },
+    {
+      "email": "ahmedabk@gmail.com",
+      "password": "$2a$10$87ENl.FiCcwwL6Y9NGmWMe5aEA9iHn7ZRd1NnNdRYI/ON/WY0on9q",
+      "id": 3
     }
   ],
   "profiles": [
@@ -29,6 +34,15 @@
       "phone": "1234567890",
       "address": "12345 a eaze dd ",
       "id": 2
+    },
+    {
+      "userId": 3,
+      "firstName": "Ahmed",
+      "lastName": "Abk",
+      "email": "ahmedabk@gmail.com",
+      "phone": "21796920",
+      "address": "Fouchana , ben arous, Tunis",
+      "id": 3
     }
   ],
   "orders": [
@@ -84,6 +98,14 @@
       "image": "https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_t.png",
       "price": 109,
       "id": 2
+    },
+    {
+      "userId": 3,
+      "productId": 7,
+      "title": "White Gold Plated Princess",
+      "image": "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_t.png",
+      "price": 9.99,
+      "id": 3
     }
   ]
 }
