@@ -11,7 +11,8 @@ import { addToCart } from '../../../store/slices/cartSlice';
 import Navbar from '../../../components/Navbar';
 import ProductCard from '../../../components/ProductCard';
 import Image from 'next/image';
-import { Star, ShoppingCart, Heart, Share2, Truck, Shield, RotateCcw, Minus, Plus, Loader2, Check, ChevronLeft, ChevronRight,} from 'lucide-react';
+import Link from 'next/link';
+import { Star, ShoppingCart, Heart, Share2, Truck, Shield, RotateCcw, Minus, Plus, Loader2, Check, ChevronLeft, ChevronRight, MessageSquare,} from 'lucide-react';
 import toast from 'react-hot-toast';
 import { wishlistAPI } from '../../../lib/api';
 
@@ -446,7 +447,7 @@ export default function ProductDetailPage() {
                     </span>
                   </div>
                   <div className="flex justify-between py-3 border-b border-gray-100">
-                    <span className="text-gray-600">Product ID:</span>
+                    <span className="text-gray-600">Reference:</span>
                     <span className="font-semibold text-gray-900">
                       #{selectedProduct.id}
                     </span>
@@ -467,39 +468,19 @@ export default function ProductDetailPage() {
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                  Customer Reviews ({selectedProduct.rating?.count || 0})
-                </h3>
-                <div className="space-y-4">
-                  {/* Sample Review */}
-                  <div className="p-6 bg-gray-50 rounded-xl">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-white font-bold">
-                          A
-                        </div>
-                        <div>
-                          <p className="font-semibold text-gray-900">
-                            Anonymous User
-                          </p>
-                          <div className="flex items-center space-x-1">
-                            {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                className="w-4 h-4 fill-yellow-400 text-yellow-400"
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                      <span className="text-sm text-gray-500">2 days ago</span>
-                    </div>
-                    <p className="text-gray-700">
-                      Great product! Exceeded my expectations. Would definitely
-                      recommend to others.
-                    </p>
-                  </div>
-                </div>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Customer Reviews ({selectedProduct.rating?.count || 0})
+                  </h3>
+                  <Link
+                    href={`/product/${selectedProduct.id}/feedback`}
+                    className="inline-flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors duration-200 font-medium"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    <span>View All Reviews</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </div> 
               </div>
             </div>
           </div>

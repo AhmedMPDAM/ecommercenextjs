@@ -38,8 +38,7 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
- 
-// Keep FakeStore product endpoints separate if still used elsewhere
+  
 const productsApiInstance = axios.create({ baseURL: 'https://fakestoreapi.com' });
 export const productsAPI = {
   getAll: () => productsApiInstance.get('/products'),
