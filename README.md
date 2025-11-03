@@ -19,18 +19,15 @@ The app consumes the public Fake Store API for catalog data and demonstrates cle
 ### Why These Technologies
 - Next.js (App Router):
   - Server and client components, file‑system routing, and built‑in optimizations.
-  - Image optimization via `next/image` for performance.
-  - Zero‑config SSR/SSG/ISR strategies for fast initial loads and SEO.
-  - Great developer ergonomics and ecosystem.
-- React: Declarative UI, component composition, local state for UI interactions.
+  - Image optimization via `next/image` for performance. 
+  - Great developer ergonomics and ecosystem. 
 - Redux Toolkit:
   - Opinionated, batteries‑included Redux with less boilerplate.
-  - `createSlice` and `createAsyncThunk` simplify async data fetching and state transitions.
+  - `createSlice` simplify async data fetching and state transitions.
   - Predictable state management for cart, product lists, and selections.
 - Axios: Simple, promise‑based HTTP client with interceptors.
-- Tailwind CSS (utility classes):
+- Tailwind CSS:
   - Rapid styling with consistent design tokens.
-  - Small, composable utilities that keep styles co‑located with components.
 - lucide‑react: Modern, lightweight icon set.
 - react‑hot‑toast: Simple, accessible toast notifications.
 
@@ -106,8 +103,7 @@ src/
 
 #### API Layer
 - `src/lib/api.js` creates an Axios instance for products and defines typed endpoints (getAll, getById, getByCategory, getCategories, etc.).
-- A separate auth API instance is scaffolded for future expansion.
-
+ 
 ### Clean Code Practices
 - Componentization:
   - UI is broken into small, reusable components (e.g., `ProductCard`, `Navbar`).
@@ -122,14 +118,9 @@ src/
   - Descriptive variable and function names, early returns, minimal deep nesting.
 - Extensibility:
   - Category pages, product routes, and profile subpages are easy to extend or refactor.
-
-### Performance and SEO
-- Image optimization via `next/image` where suitable.
-- Server rendering by default improves Time‑to‑First‑Byte and SEO for catalog/product pages.
-- Lightweight icons, on‑demand data fetching, and memoizable components (when needed).
-
+ 
 ### Security Considerations
-- Client credentials are not stored in the repo.
+- Client credentials are crypted.
 - Axios error handling is centralized to avoid leaking raw errors.
 - Future enhancements: authentication tokens, protected routes, server actions, and stricter CORS when moving to a custom API.
 
@@ -151,7 +142,9 @@ No secrets are required for the Fake Store API. If you later add private APIs, c
 
 #### 3) Run in Development
 ```bash
-npm run dev
+npm run dev //for starting the application
+npm run api //for starting the json server
+npm run dev:all //for starting both the application and json server
 ```
 Then open `http://localhost:3000`.
 
@@ -178,10 +171,6 @@ npm run start
 - New Slice/Async Flow: add to `src/store/slices/`, export actions/selectors, and wire in your components.
 - API: extend `src/lib/api.js` with typed endpoints; use thunks for side effects.
 
-### Testing (Future Work)
-- Unit tests: React Testing Library + Jest for components and slices.
-- Integration tests: Playwright/Cypress for end‑to‑end user flows.
-
 ### Roadmap
 - Real authentication and user accounts
 - Real checkout with payments (Stripe, PayPal)
@@ -189,23 +178,18 @@ npm run start
 - Review submission and moderation
 - Improved accessibility audits and performance budgets
 
-### License
-MIT or your chosen license.
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+First, run npm install for installing node packaging and then for the development server:
 
 ```bash
-npm run dev
+npm run dev // or npm run dev:all 
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+yarn run dev // or yarn run dev:all
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
