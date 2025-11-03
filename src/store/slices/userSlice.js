@@ -145,10 +145,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { 
-  logout, 
-  setAuthFromStorage, 
-  clearError, 
-} = userSlice.actions;
+export const { logout, setAuthFromStorage, clearError,} = userSlice.actions;
 
 export default userSlice.reducer;

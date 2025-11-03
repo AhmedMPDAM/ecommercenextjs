@@ -16,9 +16,7 @@ function loadCartFromStorageInline(prefer = 'local') {
     return null;
   }
 }
-
-// Local-only cart state; persistence handled via middleware in store
-
+ 
 const persisted = loadCartFromStorageInline('local');
 
 const initialState = persisted || {
@@ -128,14 +126,6 @@ const cartSlice = createSlice({
   extraReducers: () => {},
 });
 
-export const {
-  addToCart,
-  removeFromCart,
-  updateQuantity,
-  increaseQuantity,
-  decreaseQuantity,
-  clearCart,
-  clearError,
-} = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, increaseQuantity, decreaseQuantity, clearCart, clearError,} = cartSlice.actions;
 
 export default cartSlice.reducer;

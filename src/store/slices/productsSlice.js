@@ -192,11 +192,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const { 
-  setSearchQuery, 
-  setSelectedCategory, 
-  clearSelectedProduct, 
-  clearError 
-} = productsSlice.actions;
+export const {  setSearchQuery,  setSelectedCategory,  clearSelectedProduct,  clearError } = productsSlice.actions;
 
 export default productsSlice.reducer;
