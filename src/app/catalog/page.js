@@ -15,7 +15,6 @@ function CatalogContent() {
     (state) => state.products
   );
 
-  // Filter and Sort States
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [minRating, setMinRating] = useState(0);
@@ -25,7 +24,6 @@ function CatalogContent() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
-  // Get search and category from URL
   const searchQuery = searchParams.get('search') || '';
   const categoryParam = searchParams.get('category') || '';
 
@@ -44,36 +42,30 @@ function CatalogContent() {
       dispatch(setSearchQuery(searchQuery));
     }
   }, [dispatch, searchQuery]);
-
-  // Get products to display
+ 
   const productsToDisplay = searchQuery ? filteredProducts : items;
-
-  // Apply filters
+ 
   const getFilteredProducts = () => {
     let filtered = [...productsToDisplay];
-
-    // Category filter
+ 
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(
         (product) => product.category === selectedCategory
       );
     }
-
-    // Price range filter
+ 
     filtered = filtered.filter(
       (product) =>
         product.price >= priceRange[0] && product.price <= priceRange[1]
     );
-
-    // Rating filter
+ 
     filtered = filtered.filter(
       (product) => (product.rating?.rate || 0) >= minRating
     );
 
     return filtered;
   };
-
-  // Apply sorting
+ 
   const getSortedProducts = (products) => {
     let sorted = [...products];
 
@@ -101,14 +93,12 @@ function CatalogContent() {
   };
 
   const filteredAndSorted = getSortedProducts(getFilteredProducts());
-
-  // Pagination
+ 
   const totalPages = Math.ceil(filteredAndSorted.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentProducts = filteredAndSorted.slice(startIndex, endIndex);
-
-  // Reset to page 1 when filters change
+ 
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedCategory, priceRange, minRating, sortBy, searchQuery]);
@@ -239,12 +229,6 @@ function CatalogContent() {
                     <SlidersHorizontal className="w-5 h-5 mr-2" />
                     Filters
                   </h2>
-                  <button
-                    onClick={clearFilters}
-                    className="text-sm text-primary-600 hover:text-primary-700 font-medium"
-                  >
-                    Clear All
-                  </button>
                 </div>
 
                 {/* Category Filter */}

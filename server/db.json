@@ -80,6 +80,41 @@
         "phone": "21796920"
       },
       "id": 1
+    },
+    {
+      "userId": 3,
+      "status": "Placed",
+      "date": "11/4/2025",
+      "items": 2,
+      "total": 192.24,
+      "lineItems": [
+        {
+          "id": 9,
+          "title": "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
+          "price": 64,
+          "image": "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_t.png",
+          "quantity": 1,
+          "totalPrice": 64
+        },
+        {
+          "id": 12,
+          "title": "WD 4TB Gaming Drive Works with Playstation 4 Portable External Hard Drive",
+          "price": 114,
+          "image": "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
+          "quantity": 1,
+          "totalPrice": 114
+        }
+      ],
+      "shipping": {
+        "firstName": "Ahmed",
+        "lastName": "Abk",
+        "address": "Ben Arous",
+        "city": "tunis",
+        "state": "Tunis",
+        "zipCode": "11001",
+        "phone": "21796920"
+      },
+      "id": 2
     }
   ],
   "wishlists": [
@@ -106,6 +141,14 @@
       "image": "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_t.png",
       "price": 9.99,
       "id": 3
+    },
+    {
+      "userId": 3,
+      "productId": 9,
+      "title": "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
+      "image": "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_t.png",
+      "price": 64,
+      "id": 4
     }
   ]
 }
