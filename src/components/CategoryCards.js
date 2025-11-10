@@ -1,57 +1,86 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { Smartphone, Gem, ShirtIcon, Users, Package } from 'lucide-react';
+import { fetchCategories } from '../store/slices/productsSlice';
 
-const categories = [
-  {
-    id: 1,
+const CATEGORY_META = {
+  electronics: {
     name: 'Electronics',
-    slug: 'electronics',
     icon: Smartphone,
     description: 'Latest gadgets and tech',
     gradient: 'from-blue-500 to-cyan-500',
     bgPattern: 'bg-blue-50',
   },
-  {
-    id: 2,
+  jewelery: {
     name: 'Jewelry',
-    slug: 'jewelery',
     icon: Gem,
     description: 'Elegant accessories',
     gradient: 'from-amber-500 to-yellow-500',
     bgPattern: 'bg-amber-50',
   },
-  {
-    id: 3,
+  "men's clothing": {
     name: "Men's Clothing",
-    slug: "men's clothing",
     icon: ShirtIcon,
     description: 'Stylish men fashion',
     gradient: 'from-gray-600 to-gray-800',
     bgPattern: 'bg-gray-50',
   },
-  {
-    id: 4,
+  "women's clothing": {
     name: "Women's Clothing",
-    slug: "women's clothing",
     icon: Users,
     description: 'Trendy women fashion',
     gradient: 'from-pink-500 to-rose-500',
     bgPattern: 'bg-pink-50',
   },
-  {
-    id: 5,
-    name: 'All Products',
-    slug: 'all',
-    icon: Package,
-    description: 'Browse everything',
-    gradient: 'from-purple-500 to-indigo-500',
-    bgPattern: 'bg-purple-50',
-  },
-];
+};
 
 export default function CategoryCards() {
+  const dispatch = useDispatch();
+  const { categories = [], loading } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    if (!categories || categories.length === 0) {
+      dispatch(fetchCategories());
+    }
+  }, [dispatch]);
+
+  const dynamicCategories = Array.isArray(categories)
+    ? categories.map((slug, index) => {
+        const meta = CATEGORY_META[slug] || {
+          name: slug,
+          icon: Package,
+          description: 'Explore products',
+          gradient: 'from-slate-500 to-slate-700',
+          bgPattern: 'bg-slate-50',
+        };
+        return {
+          id: index + 1,
+          name: meta.name,
+          slug,
+          icon: meta.icon,
+          description: meta.description,
+          gradient: meta.gradient,
+          bgPattern: meta.bgPattern,
+        };
+      })
+    : [];
+
+  const categoriesToRender = [
+    {
+      id: 'all',
+      name: 'All Products',
+      slug: 'all',
+      icon: Package,
+      description: 'Browse everything',
+      gradient: 'from-purple-500 to-indigo-500',
+      bgPattern: 'bg-purple-50',
+    },
+    ...dynamicCategories,
+  ];
+
   return (
     <section className="py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,7 +96,7 @@ export default function CategoryCards() {
 
         {/* Category Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-          {categories.map((category) => {
+          {categoriesToRender.map((category) => {
             const Icon = category.icon;
             return (
               <Link
