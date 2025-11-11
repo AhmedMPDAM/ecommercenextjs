@@ -38,5 +38,5 @@ app.use(router);
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`✅ JSON Auth API running at http://localhost:${PORT}`);
+  console.log(`✅ JSON server running at http://localhost:${PORT}`);
 });

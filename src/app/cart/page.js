@@ -6,8 +6,9 @@ import Navbar from '../../components/Navbar';
 import Image from 'next/image';
 import { removeFromCart, increaseQuantity, decreaseQuantity, clearCart,} from '../../store/slices/cartSlice';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Tag, Truck, Shield, AlertCircle,} from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { ordersAPI } from '../../lib/api';
 
 export default function CartPage() {
   const dispatch = useDispatch();
@@ -20,6 +21,49 @@ export default function CartPage() {
   const [promoCode, setPromoCode] = useState('');
   const [discount, setDiscount] = useState(0);
   const [promoError, setPromoError] = useState('');
+  const [isFirstPurchaseEligible, setIsFirstPurchaseEligible] = useState(false);
+  const [checkingEligibility, setCheckingEligibility] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    const checkEligibility = async () => {
+      try {
+        // Require login to use promo codes (tie to user history)
+        if (!isAuthenticated) {
+          if (isMounted) {
+            setIsFirstPurchaseEligible(false);
+            setCheckingEligibility(false);
+          }
+          return;
+        }
+        const userId = typeof window !== 'undefined' ? Number(localStorage.getItem('userId')) : null;
+        if (!userId) {
+          if (isMounted) {
+            setIsFirstPurchaseEligible(false);
+            setCheckingEligibility(false);
+          }
+          return;
+        }
+        const res = await ordersAPI.listMine(userId);
+        const orders = Array.isArray(res?.data) ? res.data : [];
+        if (isMounted) {
+          // Eligible only if no previous orders
+          setIsFirstPurchaseEligible(orders.length === 0);
+          setCheckingEligibility(false);
+        }
+      } catch {
+        if (isMounted) {
+          // On error, be conservative and disallow usage
+          setIsFirstPurchaseEligible(false);
+          setCheckingEligibility(false);
+        }
+      }
+    };
+    checkEligibility();
+    return () => {
+      isMounted = false;
+    };
+  }, [isAuthenticated]);
 
   const shippingCost = totalAmount > 50 ? 0 : 5.99;
   const taxRate = 0.08; 
@@ -28,10 +72,20 @@ export default function CartPage() {
 
   const handleApplyPromo = () => {
     setPromoError('');
+
+    if (!isAuthenticated) {
+      setPromoError('Please log in to use a promo code.');
+      return;
+    }
+    if (!isFirstPurchaseEligible) {
+      setPromoError('Promo code is only valid on your first purchase.');
+      return;
+    }
+
     const validPromoCodes = {
-      SAVE10: 10,
-      SAVE20: 20,
-      WELCOME15: 15,
+      AS10: 10,
+      AS20: 20,
+      AS15: 15,
     };
 
     if (validPromoCodes[promoCode.toUpperCase()]) {
@@ -228,11 +282,13 @@ export default function CartPage() {
                       value={promoCode}
                       onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
                       placeholder="Enter code"
-                      className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+                      disabled={checkingEligibility || !isFirstPurchaseEligible}
                     />
                     <button
                       onClick={handleApplyPromo}
-                      className="px-4 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200"
+                      className="px-4 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={checkingEligibility || !isFirstPurchaseEligible}
                     >
                       Apply
                     </button>
@@ -243,6 +299,16 @@ export default function CartPage() {
                       <span>{promoError}</span>
                     </p>
                   )}
+                  {!promoError && !checkingEligibility && !isFirstPurchaseEligible && (
+                    <p className="mt-2 text-sm text-gray-600">
+                      Promo codes are only available on your first purchase.
+                    </p>
+                  )}
+                  {!promoError && !isAuthenticated && (
+                    <p className="mt-2 text-sm text-gray-600">
+                      Log in to use promo codes.
+                    </p>
+                  )}
                   {discount > 0 && (
                     <p className="mt-2 text-sm text-green-600 flex items-center space-x-1">
                       <Tag className="w-4 h-4" />
@@ -250,7 +316,7 @@ export default function CartPage() {
                     </p>
                   )}
                   <div className="mt-2 text-xs text-gray-500">
-                    Try: SAVE10, SAVE20, WELCOME15
+                    Try: AS10, AS20, AS15
                   </div>
                 </div>
  
