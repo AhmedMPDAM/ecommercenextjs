@@ -150,6 +150,33 @@
         "phone": "21796920"
       },
       "id": 3
+    },
+    {
+      "userId": 3,
+      "status": "Placed",
+      "date": "11/11/2025",
+      "items": 1,
+      "total": 118.75,
+      "lineItems": [
+        {
+          "id": 1,
+          "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95,
+          "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+          "quantity": 1,
+          "totalPrice": 109.95
+        }
+      ],
+      "shipping": {
+        "firstName": "Ahmed",
+        "lastName": "abk",
+        "address": "Ben Arous",
+        "city": "aaa",
+        "state": "Tunis",
+        "zipCode": "4200",
+        "phone": "12345555"
+      },
+      "id": 4
     }
   ],
   "wishlists": [
