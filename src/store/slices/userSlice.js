@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authAPI, profilesAPI } from '../../lib/api';
 
-// Async thunks
 export const loginUser = createAsyncThunk(
   'user/login',
   async (credentials, { rejectWithValue }) => {
@@ -23,7 +22,6 @@ export const fetchUserProfile = createAsyncThunk(
   'user/fetchProfile',
   async (userId, { rejectWithValue }) => {
     try {
-      // Prefer profile resource; create one if missing
       const res = await profilesAPI.getMine(userId);
       const items = Array.isArray(res.data) ? res.data : [];
       return items[0] || null;
@@ -37,7 +35,6 @@ export const registerUser = createAsyncThunk(
   'user/register',
   async (payload, { rejectWithValue }) => {
     try {
-      // payload: { email, password, ...profileFields }
       const { email, password, firstName, lastName, phone, address } = payload;
       const { data } = await authAPI.register({ email, password });
       const { accessToken, user } = data || {};
@@ -99,8 +96,7 @@ const userSlice = createSlice({
   
   extraReducers: (builder) => {
     builder
-      // Login user
-      .addCase(loginUser.pending, (state) => {
+       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -114,8 +110,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // Register user
-      .addCase(registerUser.pending, (state) => {
+       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -129,8 +124,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // Fetch user profile
-      .addCase(fetchUserProfile.pending, (state) => {
+       .addCase(fetchUserProfile.pending, (state) => {
         state.loading = true;
         state.error = null;
       })

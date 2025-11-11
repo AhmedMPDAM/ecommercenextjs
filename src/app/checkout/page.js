@@ -291,7 +291,7 @@ export default function CheckoutPage() {
                                                                 ? 'border-red-500'
                                                                 : 'border-gray-300'
                                                             }`}
-                                                        placeholder="John"
+                                                        placeholder="Foulen"
                                                     />
                                                     {errors.firstName && (
                                                         <p className="mt-1 text-sm text-red-600">
@@ -313,7 +313,7 @@ export default function CheckoutPage() {
                                                                 ? 'border-red-500'
                                                                 : 'border-gray-300'
                                                             }`}
-                                                        placeholder="Doe"
+                                                        placeholder="ben foulen"
                                                     />
                                                     {errors.lastName && (
                                                         <p className="mt-1 text-sm text-red-600">
@@ -336,7 +336,7 @@ export default function CheckoutPage() {
                                                         })}
                                                         className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent ${errors.email ? 'border-red-500' : 'border-gray-300'
                                                             }`}
-                                                        placeholder="john@example.com"
+                                                        placeholder="Foulen@example.com"
                                                     />
                                                     {errors.email && (
                                                         <p className="mt-1 text-sm text-red-600">
@@ -398,7 +398,7 @@ export default function CheckoutPage() {
                                                         {...register('city', { required: 'City is required' })}
                                                         className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent ${errors.city ? 'border-red-500' : 'border-gray-300'
                                                             }`}
-                                                        placeholder="New York"
+                                                        placeholder="Tunis"
                                                     />
                                                     {errors.city && (
                                                         <p className="mt-1 text-sm text-red-600">
@@ -416,7 +416,7 @@ export default function CheckoutPage() {
                                                         {...register('state', { required: 'State is required' })}
                                                         className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent ${errors.state ? 'border-red-500' : 'border-gray-300'
                                                             }`}
-                                                        placeholder="NY"
+                                                        placeholder="TN"
                                                     />
                                                     {errors.state && (
                                                         <p className="mt-1 text-sm text-red-600">
@@ -436,7 +436,7 @@ export default function CheckoutPage() {
                                                         })}
                                                         className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent ${errors.zipCode ? 'border-red-500' : 'border-gray-300'
                                                             }`}
-                                                        placeholder="10001"
+                                                        placeholder="4200"
                                                     />
                                                     {errors.zipCode && (
                                                         <p className="mt-1 text-sm text-red-600">
@@ -514,7 +514,7 @@ export default function CheckoutPage() {
                                                     })}
                                                     className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent ${errors.cardName ? 'border-red-500' : 'border-gray-300'
                                                         }`}
-                                                    placeholder="JOHN DOE"
+                                                    placeholder="Foulen ben foulen"
                                                 />
                                                 {errors.cardName && (
                                                     <p className="mt-1 text-sm text-red-600">

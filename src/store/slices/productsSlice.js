@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { productsAPI } from '../../lib/api';
 
-// Async thunks for API calls
 export const fetchAllProducts = createAsyncThunk(
   'products/fetchAll',
   async (_, { rejectWithValue }) => {
@@ -80,10 +79,8 @@ const productsSlice = createSlice({
   reducers: {
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
-      // Filter products based on search query
-      if (action.payload) {
-        // Filter from the current items
-        state.filteredProducts = state.items.filter(product =>
+       if (action.payload) {
+          state.filteredProducts = state.items.filter(product =>
           product.title.toLowerCase().includes(action.payload.toLowerCase()) ||
           product.description?.toLowerCase().includes(action.payload.toLowerCase()) ||
           product.category?.toLowerCase().includes(action.payload.toLowerCase())
@@ -103,16 +100,14 @@ const productsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      // Fetch all products
+    builder 
       .addCase(fetchAllProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
-        // Apply search filter if exists
+        state.items = action.payload; 
         if (state.searchQuery) {
           state.filteredProducts = action.payload.filter(product =>
             product.title.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
@@ -126,8 +121,7 @@ const productsSlice = createSlice({
       .addCase(fetchAllProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
-      // Fetch product by ID
+      }) 
       .addCase(fetchProductById.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -140,8 +134,7 @@ const productsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // Fetch categories
-      .addCase(fetchCategories.pending, (state) => {
+       .addCase(fetchCategories.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -153,16 +146,14 @@ const productsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // Fetch products by category
-      .addCase(fetchProductsByCategory.pending, (state) => {
+       .addCase(fetchProductsByCategory.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
-        // Apply search filter if exists
-        if (state.searchQuery) {
+         if (state.searchQuery) {
           state.filteredProducts = action.payload.filter(product =>
             product.title.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
             product.description?.toLowerCase().includes(state.searchQuery.toLowerCase()) ||

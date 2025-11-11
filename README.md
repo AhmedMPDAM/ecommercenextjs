@@ -198,6 +198,37 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+
+## Screenshots
+
+Below are screenshots showcasing the key features of the project. All images are stored in the `src/assets` folder.
+
+### Main Page
+![Main Page Screenshot](./src/assets/main-page.png)
+
+### Catalog
+![Catalog Screenshot](./src/assets/catalog.png)
+
+### Product Detail
+![Product Detail Screenshot](./src/assets/product-detail.png)
+
+### Profile
+![Profile Screenshot](./src/assets/profile.png)
+
+### Cart
+![Cart Screenshot](./src/assets/cart.png)
+
+### Checkout Process
+#### Checkout Step 1
+![Checkout Step 1 Screenshot](./src/assets/checkout-step1.png)
+
+#### Checkout Step 2
+![Checkout Step 2 Screenshot](./src/assets/checkout-step2.png)
+
+#### Checkout Step 3
+![Checkout Step 3 Screenshot](./src/assets/checkout-step3.png)
+
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -207,8 +238,9 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deployment on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is deployed on **Vercel**, a fast and reliable cloud platform for modern web applications.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🔗 **Live Demo:** [https://ecommercenextjs-eosin.vercel.app](https://ecommercenextjs-eosin.vercel.app)
+

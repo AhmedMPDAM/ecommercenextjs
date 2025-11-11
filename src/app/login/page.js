@@ -65,7 +65,7 @@ function LoginContent() {
       <main className="pt-20 pb-16">
         <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-12">
-            {/* Header */}
+
             <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl mb-4 shadow-lg">
                 <Lock className="w-8 h-8 text-white" />
@@ -76,13 +76,10 @@ function LoginContent() {
               <p className="text-gray-600">
                 Sign in to your account to continue shopping
               </p>
-            </div>
+            </div> 
 
-            {/* Login Form Card */}
             <div className="bg-white rounded-3xl shadow-xl p-8">
-              {/* Sign in to your account */}
-
-              {/* Error Message */}
+            
               {error && (
                 <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start space-x-2">
                   <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
@@ -98,16 +95,13 @@ function LoginContent() {
               )}
 
               <form onSubmit={handleSubmit((data) => {
-                // Form validation errors are handled by react-hook-form
-                onSubmit(data);
+                 onSubmit(data);
               }, (errors) => {
-                // Handle form validation errors
-                if (Object.keys(errors).length > 0) {
+                 if (Object.keys(errors).length > 0) {
                   toast.error('Invalid form. Please check all fields.');
                 }
               })} className="space-y-6">
-                {/* Email/Username Field */}
-                <div>
+                 <div>
                   <label className="block text-sm font-semibold text-gray-900 mb-2">
                     Email or Username
                   </label>
@@ -134,7 +128,6 @@ function LoginContent() {
                   )}
                 </div>
 
-                {/* Password Field */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-900 mb-2">
                     Password
@@ -177,7 +170,6 @@ function LoginContent() {
                   )}
                 </div>
 
-                {/* Remember Me & Forgot Password */}
                 <div className="flex items-center justify-between">
                   <label className="flex items-center space-x-2 cursor-pointer">
                     <input
@@ -222,8 +214,6 @@ function LoginContent() {
                 </div>
               </div>
  
-
-              {/* Sign Up Link */}
               <div className="mt-6 text-center">
                 <p className="text-gray-600">
                   Don't have an account?{' '}

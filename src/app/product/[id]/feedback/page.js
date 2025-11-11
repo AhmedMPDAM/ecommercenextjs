@@ -9,7 +9,6 @@ import { Star, ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-// Category-specific review templates (2 per category)
 const categoryReviewTemplates = {
   electronics: [
     {
@@ -171,7 +170,6 @@ export default function ProductFeedbackPage() {
 
       <main className="pt-20 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Breadcrumb */}
           <nav className="py-4 flex items-center space-x-2 text-sm text-gray-600 mb-6">
             <Link
               href="/"
@@ -206,7 +204,6 @@ export default function ProductFeedbackPage() {
             <span className="font-medium">Back to Product</span>
           </Link>
 
-          {/* Product Info Header */}
           <div className="bg-white rounded-3xl shadow-xl p-8 mb-8">
             <div className="flex items-start space-x-6">
               <div className="relative w-24 h-24 bg-gray-50 rounded-xl overflow-hidden flex-shrink-0">
@@ -249,7 +246,6 @@ export default function ProductFeedbackPage() {
             </div>
           </div>
 
-          {/* Customer Reviews Section */}
           <div className="bg-white rounded-3xl shadow-xl p-8">
             <div className="border-b border-gray-200 mb-6 pb-4">
               <h2 className="text-2xl font-bold text-gray-900">
@@ -296,9 +292,8 @@ export default function ProductFeedbackPage() {
                   </p>
                 </div>
               ))}
-            </div>
-
-            {/* Empty State (if no reviews) */}
+            </div> 
+            
             {reviews.length === 0 && (
               <div className="text-center py-12">
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">

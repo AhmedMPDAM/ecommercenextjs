@@ -110,7 +110,6 @@ export default function CartPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
-              {/* Clear Cart Button */}
               <div className="flex justify-end">
                 <button
                   onClick={handleClearCart}
@@ -154,7 +153,6 @@ export default function CartPage() {
                         </Link>
 
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-4">
-                          {/* Quantity Controls */}
                           <div className="flex items-center space-x-3">
                             <span className="text-sm text-gray-600 font-medium">
                               Quantity:
@@ -178,7 +176,6 @@ export default function CartPage() {
                             </div>
                           </div>
 
-                          {/* Price */}
                           <div className="flex items-center justify-between sm:flex-col sm:items-end gap-2">
                             <div>
                               <p className="text-sm text-gray-500">
@@ -191,8 +188,7 @@ export default function CartPage() {
                           </div>
                         </div>
                       </div>
-
-                      {/* Remove Button */}
+ 
                       <button
                         onClick={() => dispatch(removeFromCart(item.id))}
                         className="self-start p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200 group"
@@ -204,8 +200,7 @@ export default function CartPage() {
                   </div>
                 </div>
               ))}
-
-              {/* Continue Shopping */}
+ 
               <div className="pt-4">
                 <Link
                   href="/catalog"
@@ -216,16 +211,13 @@ export default function CartPage() {
                 </Link>
               </div>
             </div>
-
-            {/* Order Summary */}
+ 
             <div className="lg:col-span-1">
               <div className="bg-white rounded-2xl shadow-xl p-6 sticky top-24 space-y-6">
-                {/* Summary Header */}
-                <h2 className="text-2xl font-bold text-gray-900 pb-4 border-b border-gray-200">
+                 <h2 className="text-2xl font-bold text-gray-900 pb-4 border-b border-gray-200">
                   Order Summary
                 </h2>
-
-                {/* Promo Code */}
+ 
                 <div>
                   <label className="block text-sm font-semibold text-gray-900 mb-2">
                     Promo Code
@@ -261,8 +253,7 @@ export default function CartPage() {
                     Try: SAVE10, SAVE20, WELCOME15
                   </div>
                 </div>
-
-                {/* Price Breakdown */}
+ 
                 <div className="space-y-3 py-4 border-y border-gray-200">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal ({totalQuantity} items)</span>
@@ -301,14 +292,12 @@ export default function CartPage() {
                     </div>
                   )}
                 </div>
-
-                {/* Total */}
+ 
                 <div className="flex justify-between items-center text-xl font-bold text-gray-900">
                   <span>Total</span>
                   <span className="text-2xl">${finalTotal.toFixed(2)}</span>
                 </div>
-
-                {/* Free Shipping Notice */}
+ 
                 {shippingCost > 0 && (
                   <div className="p-4 bg-primary-50 border border-primary-200 rounded-lg">
                     <p className="text-sm text-primary-800">
@@ -327,8 +316,7 @@ export default function CartPage() {
                     </div>
                   </div>
                 )}
-
-                {/* Checkout Button */}
+ 
                 <button
                   onClick={handleCheckout}
                   className="w-full py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-bold text-lg hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2"
@@ -336,8 +324,7 @@ export default function CartPage() {
                   <span>Proceed to Checkout</span>
                   <ArrowRight className="w-5 h-5" />
                 </button>
-
-                {/* Security Badges */}
+ 
                 <div className="pt-4 space-y-3">
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
                     <Shield className="w-5 h-5 text-green-600" />

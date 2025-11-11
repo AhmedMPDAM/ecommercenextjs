@@ -3,10 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchProductById,
-  fetchProductsByCategory,
-} from '../../../store/slices/productsSlice';
+import {fetchProductById,fetchProductsByCategory,} from '../../../store/slices/productsSlice';
 import { addToCart } from '../../../store/slices/cartSlice';
 import Navbar from '../../../components/Navbar';
 import ProductCard from '../../../components/ProductCard';
@@ -336,8 +333,7 @@ export default function ProductDetailPage() {
                     </span>
                   </div>
                 </div>
-
-                {/* Action Buttons */}
+ 
                 <div className="flex space-x-4">
                   <button
                     onClick={handleAddToCart}
