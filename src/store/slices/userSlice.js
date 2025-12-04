@@ -6,14 +6,15 @@ export const loginUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await authAPI.login(credentials);
-      const { accessToken, user } = response.data || {};
-      if (accessToken && user?.id != null) {
-        localStorage.setItem('accessToken', accessToken);
+      const { token, user } = response.data?.data || {};
+      if (token && user?.id != null) {
+        localStorage.setItem('accessToken', token);
         localStorage.setItem('userId', String(user.id));
       }
-      return { accessToken, user };
+      return { accessToken: token, user };
     } catch (error) {
-      return rejectWithValue(error.response?.data || 'Login failed');
+      const errorMessage = error.response?.data?.message || 'Login failed';
+      return rejectWithValue(errorMessage);
     }
   }
 );
@@ -22,11 +23,11 @@ export const fetchUserProfile = createAsyncThunk(
   'user/fetchProfile',
   async (userId, { rejectWithValue }) => {
     try {
-      const res = await profilesAPI.getMine(userId);
-      const items = Array.isArray(res.data) ? res.data : [];
-      return items[0] || null;
+      const res = await profilesAPI.getByUserId(userId);
+      const profile = res.data?.data?.profile || null;
+      return profile;
     } catch (error) {
-      return rejectWithValue(error.response?.data || 'Failed to fetch profile');
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch profile');
     }
   }
 );
@@ -36,14 +37,13 @@ export const registerUser = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const { email, password, firstName, lastName, phone, address } = payload;
-      const { data } = await authAPI.register({ email, password });
-      const { accessToken, user } = data || {};
-      if (!(accessToken && user?.id != null)) {
+      const response = await authAPI.register({ email, password });
+      const { token, user } = response.data?.data || {};
+      if (!(token && user?.id != null)) {
         throw new Error('Invalid register response');
       }
-      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('accessToken', token);
       localStorage.setItem('userId', String(user.id));
-      // bootstrap a profile row
       await profilesAPI.create({
         userId: user.id,
         firstName: firstName || '',
@@ -52,9 +52,10 @@ export const registerUser = createAsyncThunk(
         phone: phone || '',
         address: address || '',
       });
-      return { accessToken, user };
+      return { accessToken: token, user };
     } catch (error) {
-      return rejectWithValue(error.response?.data || 'Registration failed');
+      const errorMessage = error.response?.data?.message || 'Registration failed';
+      return rejectWithValue(errorMessage);
     }
   }
 );
@@ -78,25 +79,25 @@ const userSlice = createSlice({
       localStorage.removeItem('accessToken');
       localStorage.removeItem('userId');
     },
-    
+
     setAuthFromStorage: (state) => {
       const token = localStorage.getItem('accessToken');
       const userId = localStorage.getItem('userId');
-      
+
       if (token && userId) {
         state.isAuthenticated = true;
         state.token = token;
       }
     },
-    
+
     clearError: (state) => {
       state.error = null;
     },
   },
-  
+
   extraReducers: (builder) => {
     builder
-       .addCase(loginUser.pending, (state) => {
+      .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -110,7 +111,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-       .addCase(registerUser.pending, (state) => {
+      .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -124,7 +125,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-       .addCase(fetchUserProfile.pending, (state) => {
+      .addCase(fetchUserProfile.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -139,6 +140,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout, setAuthFromStorage, clearError,} = userSlice.actions;
+export const { logout, setAuthFromStorage, clearError, } = userSlice.actions;
 
 export default userSlice.reducer;

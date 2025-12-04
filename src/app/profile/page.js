@@ -37,16 +37,15 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const userId = localStorage.getItem('userId');
-    if (userId) {
-      // Load wishlist and orders for stats
+    if (userId) { 
       import('../../lib/api').then(({ wishlistAPI, ordersAPI }) => {
         wishlistAPI
-          .listMine(userId)
-          .then((res) => setWishlist(Array.isArray(res.data) ? res.data : []))
+          .getUserWishlist(userId)
+          .then((res) => setWishlist(Array.isArray(res.data?.data?.wishlist) ? res.data.data.wishlist : []))
           .catch(() => setWishlist([]));
         ordersAPI
-          .listMine(userId)
-          .then((res) => setOrderHistory(Array.isArray(res.data) ? res.data : []))
+          .getUserOrders(userId)
+          .then((res) => setOrderHistory(Array.isArray(res.data?.data?.orders) ? res.data.data.orders : []))
           .catch(() => setOrderHistory([]));
       });
     }
@@ -76,19 +75,12 @@ export default function ProfilePage() {
     try {
       const userId = localStorage.getItem('userId');
       if (!userId) return;
-      // find profile row
-      let id = profileId;
-      if (!id) {
-        const res = await profilesAPI.getMine(userId);
-        const row = Array.isArray(res.data) ? res.data[0] : null;
-        id = row?.id;
-      }
-      if (id) {
-        await profilesAPI.update(id, { ...formData, userId: Number(userId) });
-      }
+      // Update profile using userId
+      await profilesAPI.update(userId, { ...formData, userId: Number(userId) });
       setIsEditing(false);
       alert('Profile updated successfully!');
-    } catch {
+    } catch (error) {
+      console.error('Profile update error:', error);
       alert('Failed to update profile');
     }
   };

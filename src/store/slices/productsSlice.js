@@ -6,7 +6,8 @@ export const fetchAllProducts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await productsAPI.getAll();
-      return response.data;
+      // Backend returns { status: 'success', data: { products: [...] } }
+      return response.data.data.products;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to fetch products');
     }
@@ -18,7 +19,8 @@ export const fetchProductById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await productsAPI.getById(id);
-      return response.data;
+      // Backend returns { status: 'success', data: { product: {...} } }
+      return response.data.data.product;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to fetch product');
     }
@@ -30,7 +32,8 @@ export const fetchCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await productsAPI.getCategories();
-      return response.data;
+      // Backend returns { status: 'success', data: { categories: [...] } }
+      return response.data.data.categories;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to fetch categories');
     }
@@ -42,7 +45,8 @@ export const fetchProductsByCategory = createAsyncThunk(
   async (category, { rejectWithValue }) => {
     try {
       const response = await productsAPI.getByCategory(category);
-      return response.data;
+      // Backend returns { status: 'success', data: { products: [...] } }
+      return response.data.data.products;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to fetch products');
     }
@@ -54,7 +58,8 @@ export const fetchFeaturedProducts = createAsyncThunk(
   async (limit = 8, { rejectWithValue }) => {
     try {
       const response = await productsAPI.getLimited(limit);
-      return response.data;
+      // Backend returns { status: 'success', data: { products: [...] } }
+      return response.data.data.products;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to fetch featured products');
     }
@@ -79,8 +84,8 @@ const productsSlice = createSlice({
   reducers: {
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
-       if (action.payload) {
-          state.filteredProducts = state.items.filter(product =>
+      if (action.payload) {
+        state.filteredProducts = state.items.filter(product =>
           product.title.toLowerCase().includes(action.payload.toLowerCase()) ||
           product.description?.toLowerCase().includes(action.payload.toLowerCase()) ||
           product.category?.toLowerCase().includes(action.payload.toLowerCase())
@@ -100,14 +105,14 @@ const productsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder 
+    builder
       .addCase(fetchAllProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload; 
+        state.items = action.payload;
         if (state.searchQuery) {
           state.filteredProducts = action.payload.filter(product =>
             product.title.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
@@ -121,7 +126,7 @@ const productsSlice = createSlice({
       .addCase(fetchAllProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      }) 
+      })
       .addCase(fetchProductById.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -134,7 +139,7 @@ const productsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-       .addCase(fetchCategories.pending, (state) => {
+      .addCase(fetchCategories.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -146,14 +151,14 @@ const productsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-       .addCase(fetchProductsByCategory.pending, (state) => {
+      .addCase(fetchProductsByCategory.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
-         if (state.searchQuery) {
+        if (state.searchQuery) {
           state.filteredProducts = action.payload.filter(product =>
             product.title.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
             product.description?.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
@@ -183,6 +188,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const {  setSearchQuery,  setSelectedCategory,  clearSelectedProduct,  clearError } = productsSlice.actions;
+export const { setSearchQuery, setSelectedCategory, clearSelectedProduct, clearError } = productsSlice.actions;
 
 export default productsSlice.reducer;

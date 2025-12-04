@@ -15,8 +15,8 @@ export default function OrdersPage() {
     const userId = localStorage.getItem('userId');
     if (userId) {
       ordersAPI
-        .listMine(userId)
-        .then((res) => setOrderHistory(Array.isArray(res.data) ? res.data : []))
+        .getUserOrders(userId)
+        .then((res) => setOrderHistory(Array.isArray(res.data?.data?.orders) ? res.data.data.orders : []))
         .catch(() => setOrderHistory([]))
         .finally(() => setLoading(false));
     } else {

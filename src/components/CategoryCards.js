@@ -48,24 +48,26 @@ export default function CategoryCards() {
   }, [dispatch]);
 
   const dynamicCategories = Array.isArray(categories)
-    ? categories.map((slug, index) => {
-        const meta = CATEGORY_META[slug] || {
-          name: slug,
-          icon: Package,
-          description: 'Explore products',
-          gradient: 'from-slate-500 to-slate-700',
-          bgPattern: 'bg-slate-50',
-        };
-        return {
-          id: index + 1,
-          name: meta.name,
-          slug,
-          icon: meta.icon,
-          description: meta.description,
-          gradient: meta.gradient,
-          bgPattern: meta.bgPattern,
-        };
-      })
+    ? categories.map((category, index) => {
+      // Handle both string slugs and category objects from MongoDB
+      const slug = typeof category === 'string' ? category : category.slug || category.name;
+      const meta = CATEGORY_META[slug] || {
+        name: slug,
+        icon: Package,
+        description: 'Explore products',
+        gradient: 'from-slate-500 to-slate-700',
+        bgPattern: 'bg-slate-50',
+      };
+      return {
+        id: typeof category === 'object' && category.id ? category.id : index + 1,
+        name: meta.name,
+        slug,
+        icon: meta.icon,
+        description: meta.description,
+        gradient: meta.gradient,
+        bgPattern: meta.bgPattern,
+      };
+    })
     : [];
 
   const categoriesToRender = [

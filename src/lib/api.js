@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -9,9 +9,9 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
- 
+
 api.interceptors.request.use(
-  (config) => { 
+  (config) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -22,7 +22,7 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
- 
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -30,7 +30,7 @@ api.interceptors.response.use(
       try {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('userId');
-      } catch {}
+      } catch { }
       if (typeof window !== 'undefined') {
         window.location.href = '/login';
       }
@@ -38,38 +38,46 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-  
-const productsApiInstance = axios.create({ baseURL: 'https://fakestoreapi.com' });
+
+// Products API - now uses backend
 export const productsAPI = {
-  getAll: () => productsApiInstance.get('/products'),
-  getById: (id) => productsApiInstance.get(`/products/${id}`),
-  getByCategory: (category) => productsApiInstance.get(`/products/category/${category}`),
-  getCategories: () => productsApiInstance.get('/products/categories'),
-  getLimited: (limit = 8) => productsApiInstance.get(`/products?limit=${limit}`),
-  getSort: (sort = 'asc') => productsApiInstance.get(`/products?sort=${sort}`),
+  getAll: () => api.get('/products'),
+  getById: (id) => api.get(`/products/${id}`),
+  getByCategory: (category) => api.get(`/products/category/${category}`),
+  getCategories: () => api.get('/products/categories'),
+  getLimited: (limit = 8) => api.get(`/products?limit=${limit}`),
+  getSort: (sort = 'asc') => api.get(`/products?sort=${sort}`),
 };
 
+// Auth API - matches new backend structure
 export const authAPI = {
-  register: (payload) => api.post('/register', payload),
-  login: (credentials) => api.post('/login', credentials),
+  register: (payload) => api.post('/auth/register', payload),
+  login: (credentials) => api.post('/auth/login', credentials),
+  getCurrentUser: () => api.get('/auth/me'),
   getUser: (id) => api.get(`/users/${id}`),
 };
 
+// Profiles API - matches new backend structure
 export const profilesAPI = {
-  getMine: (userId) => api.get(`/profiles`, { params: { userId } }),
+  getByUserId: (userId) => api.get(`/profiles/user/${userId}`),
   create: (data) => api.post('/profiles', data),
-  update: (id, data) => api.patch(`/profiles/${id}`, data),
+  update: (userId, data) => api.put(`/profiles/${userId}`, data),
 };
 
+// Orders API 
 export const ordersAPI = {
-  listMine: (userId) => api.get('/orders', { params: { userId } }),
+  getUserOrders: (userId) => api.get(`/orders/user/${userId}`),
+  getById: (id) => api.get(`/orders/${id}`),
   create: (data) => api.post('/orders', data),
+  updateStatus: (id, status) => api.patch(`/orders/${id}/status`, { status }),
 };
 
+// Wishlist API - matches new backend structure
 export const wishlistAPI = {
-  listMine: (userId) => api.get('/wishlists', { params: { userId } }),
-  add: (item) => api.post('/wishlists', item),
-  remove: (id) => api.delete(`/wishlists/${id}`),
+  getUserWishlist: (userId) => api.get(`/wishlist/user/${userId}`),
+  add: (item) => api.post('/wishlist', item),
+  remove: (id) => api.delete(`/wishlist/${id}`),
+  clear: (userId) => api.delete(`/wishlist/user/${userId}/clear`),
 };
 
 export default api;

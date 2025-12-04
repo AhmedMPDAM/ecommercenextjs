@@ -19,8 +19,8 @@ export default function WishlistPage() {
     const userId = localStorage.getItem('userId');
     if (userId) {
       wishlistAPI
-        .listMine(userId)
-        .then((res) => setWishlist(Array.isArray(res.data) ? res.data : []))
+        .getUserWishlist(userId)
+        .then((res) => setWishlist(Array.isArray(res.data?.data?.wishlist) ? res.data.data.wishlist : []))
         .catch(() => setWishlist([]))
         .finally(() => setLoading(false));
     } else {

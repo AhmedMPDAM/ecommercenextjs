@@ -32,7 +32,8 @@ The app consumes the public Fake Store API for catalog data and demonstrates cle
 - react‑hot‑toast: Simple, accessible toast notifications.
 
 ### Data Source
-- Products and categories are fetched from `https://fakestoreapi.com`.
+- Products and categories are stored locally in `server/db.json`.
+  - Product data is served by the backend API at `http://localhost:5000/api/products`.
   - Implemented in `src/lib/api.js` and consumed via Redux thunks in `src/store/slices/productsSlice.js`.
 
 ### Architecture and Project Structure

@@ -5,7 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'fakestoreapi.com',
+        hostname: 'fakestoreapi.com', // Product images are still hosted on FakeStore API
       },
     ],
   },

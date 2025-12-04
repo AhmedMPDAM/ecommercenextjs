@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Navbar from '../../components/Navbar';
 import Image from 'next/image';
-import { removeFromCart, increaseQuantity, decreaseQuantity, clearCart,} from '../../store/slices/cartSlice';
-import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Tag, Truck, Shield, AlertCircle,} from 'lucide-react';
+import { removeFromCart, increaseQuantity, decreaseQuantity, clearCart, } from '../../store/slices/cartSlice';
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Tag, Truck, Shield, AlertCircle, } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ordersAPI } from '../../lib/api';
@@ -26,9 +26,13 @@ export default function CartPage() {
 
   useEffect(() => {
     let isMounted = true;
+
     const checkEligibility = async () => {
+      if (isMounted) {
+        setCheckingEligibility(true);
+      }
+
       try {
-        // Require login to use promo codes (tie to user history)
         if (!isAuthenticated) {
           if (isMounted) {
             setIsFirstPurchaseEligible(false);
@@ -36,7 +40,10 @@ export default function CartPage() {
           }
           return;
         }
-        const userId = typeof window !== 'undefined' ? Number(localStorage.getItem('userId')) : null;
+        const userId = typeof window !== 'undefined'
+          ? localStorage.getItem('userId')
+          : null;
+
         if (!userId) {
           if (isMounted) {
             setIsFirstPurchaseEligible(false);
@@ -44,29 +51,40 @@ export default function CartPage() {
           }
           return;
         }
-        const res = await ordersAPI.listMine(userId);
-        const orders = Array.isArray(res?.data) ? res.data : [];
+
+        const response = await fetch(`/api/user/${userId}/has-purchased`, {
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to check purchase history');
+        }
+
+        const data = await response.json();
+        const hasPurchasedBefore = data.hasPurchased || false;
+
         if (isMounted) {
-          // Eligible only if no previous orders
-          setIsFirstPurchaseEligible(orders.length === 0);
+          setIsFirstPurchaseEligible(!hasPurchasedBefore);
           setCheckingEligibility(false);
         }
-      } catch {
+      } catch (error) {
+        console.error('Error checking first purchase eligibility:', error);
         if (isMounted) {
-          // On error, be conservative and disallow usage
           setIsFirstPurchaseEligible(false);
           setCheckingEligibility(false);
         }
       }
     };
+
     checkEligibility();
+
     return () => {
       isMounted = false;
     };
   }, [isAuthenticated]);
 
   const shippingCost = totalAmount > 50 ? 0 : 5.99;
-  const taxRate = 0.08; 
+  const taxRate = 0.08;
   const taxAmount = totalAmount * taxRate;
   const finalTotal = totalAmount + shippingCost + taxAmount - discount;
 
@@ -242,7 +260,7 @@ export default function CartPage() {
                           </div>
                         </div>
                       </div>
- 
+
                       <button
                         onClick={() => dispatch(removeFromCart(item.id))}
                         className="self-start p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200 group"
@@ -254,7 +272,7 @@ export default function CartPage() {
                   </div>
                 </div>
               ))}
- 
+
               <div className="pt-4">
                 <Link
                   href="/catalog"
@@ -265,13 +283,13 @@ export default function CartPage() {
                 </Link>
               </div>
             </div>
- 
+
             <div className="lg:col-span-1">
               <div className="bg-white rounded-2xl shadow-xl p-6 sticky top-24 space-y-6">
-                 <h2 className="text-2xl font-bold text-gray-900 pb-4 border-b border-gray-200">
+                <h2 className="text-2xl font-bold text-gray-900 pb-4 border-b border-gray-200">
                   Order Summary
                 </h2>
- 
+
                 <div>
                   <label className="block text-sm font-semibold text-gray-900 mb-2">
                     Promo Code
@@ -319,7 +337,7 @@ export default function CartPage() {
                     Try: AS10, AS20, AS15
                   </div>
                 </div>
- 
+
                 <div className="space-y-3 py-4 border-y border-gray-200">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal ({totalQuantity} items)</span>
@@ -358,12 +376,12 @@ export default function CartPage() {
                     </div>
                   )}
                 </div>
- 
+
                 <div className="flex justify-between items-center text-xl font-bold text-gray-900">
                   <span>Total</span>
                   <span className="text-2xl">${finalTotal.toFixed(2)}</span>
                 </div>
- 
+
                 {shippingCost > 0 && (
                   <div className="p-4 bg-primary-50 border border-primary-200 rounded-lg">
                     <p className="text-sm text-primary-800">
@@ -382,7 +400,7 @@ export default function CartPage() {
                     </div>
                   </div>
                 )}
- 
+
                 <button
                   onClick={handleCheckout}
                   className="w-full py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-bold text-lg hover:from-primary-700 hover:to-primary-800 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2"
@@ -390,7 +408,7 @@ export default function CartPage() {
                   <span>Proceed to Checkout</span>
                   <ArrowRight className="w-5 h-5" />
                 </button>
- 
+
                 <div className="pt-4 space-y-3">
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
                     <Shield className="w-5 h-5 text-green-600" />
