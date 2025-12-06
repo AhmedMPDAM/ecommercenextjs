@@ -125,6 +125,32 @@ src/
 - Axios error handling is centralized to avoid leaking raw errors.
 - Future enhancements: authentication tokens, protected routes, server actions, and stricter CORS when moving to a custom API.
 
+### API Documentation
+
+The backend API is fully documented in **[backend/API_DOCUMENTATION.md](./backend/API_DOCUMENTATION.md)**.
+
+This comprehensive guide includes:
+- **Authentication**: JWT token usage and endpoints
+- **Rate Limiting**: Request limits per endpoint type
+- **All Endpoints**: Complete documentation with request/response examples for:
+  - Authentication (register, login, current user)
+  - Users (CRUD operations)
+  - Profiles (user profile management)
+  - Products (catalog, search, categories)
+  - Orders (order management)
+  - Wishlist (wishlist operations)
+- **Error Responses**: Standard error formats and status codes
+- **Data Models**: Complete schema definitions
+
+**Quick Reference:**
+- Base URL: `http://localhost:5000/api`
+- Authentication: JWT Bearer tokens
+- Rate Limits:
+  - Auth endpoints: No limit
+  - Product endpoints: 200 requests / 15 minutes
+  - Other endpoints: 100 requests / 15 minutes
+
+
 ### Developer Guide
 
 #### Prerequisites

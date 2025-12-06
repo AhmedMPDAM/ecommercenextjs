@@ -103,6 +103,115 @@ class ProductService {
 
         return results.map(p => p.toJSON());
     }
+
+    async createProduct(productData) {
+        // Validate required fields
+        if (!productData.title || !productData.price || !productData.category) {
+            const error = new Error('Missing required fields: title, price, and category are required');
+            error.statusCode = 400;
+            throw error;
+        }
+
+        // Validate price
+        if (productData.price <= 0) {
+            const error = new Error('Price must be greater than 0');
+            error.statusCode = 400;
+            throw error;
+        }
+
+        const product = await this.productRepository.create(productData);
+        return product.toJSON();
+    }
+
+    async updateProduct(id, productData) {
+        if (!id) {
+            const error = new Error('Product ID is required');
+            error.statusCode = 400;
+            throw error;
+        }
+
+        // Validate price if provided
+        if (productData.price !== undefined && productData.price <= 0) {
+            const error = new Error('Price must be greater than 0');
+            error.statusCode = 400;
+            throw error;
+        }
+
+        const product = await this.productRepository.update(id, productData);
+
+        if (!product) {
+            const error = new Error('Product not found');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        return product.toJSON();
+    }
+
+    async deleteProduct(id) {
+        if (!id) {
+            const error = new Error('Product ID is required');
+            error.statusCode = 400;
+            throw error;
+        }
+
+        const result = await this.productRepository.delete(id);
+
+        if (!result) {
+            const error = new Error('Product not found');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        return { message: 'Product deleted successfully' };
+    }
+
+    async createCategory(categoryData) {
+        if (!categoryData.name) {
+            const error = new Error('Category name is required');
+            error.statusCode = 400;
+            throw error;
+        }
+
+        const category = await this.productRepository.createCategory(categoryData);
+        return category;
+    }
+
+    async updateCategory(id, categoryData) {
+        if (!id) {
+            const error = new Error('Category ID is required');
+            error.statusCode = 400;
+            throw error;
+        }
+
+        const category = await this.productRepository.updateCategory(id, categoryData);
+
+        if (!category) {
+            const error = new Error('Category not found');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        return category;
+    }
+
+    async deleteCategory(id) {
+        if (!id) {
+            const error = new Error('Category ID is required');
+            error.statusCode = 400;
+            throw error;
+        }
+
+        const result = await this.productRepository.deleteCategory(id);
+
+        if (!result) {
+            const error = new Error('Category not found');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        return { message: 'Category deleted successfully' };
+    }
 }
 
 module.exports = ProductService;

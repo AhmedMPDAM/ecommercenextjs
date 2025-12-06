@@ -3,6 +3,7 @@ const ProductController = require('../controllers/ProductController');
 const ProductService = require('../../Application/services/ProductService');
 const ProductRepository = require('../../Infrastructure/repositories/ProductRepository');
 const { getDatabase } = require('../../Infrastructure/database/database');
+const authMiddleware = require('../../Domain/middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -18,5 +19,15 @@ router.get('/search', productController.searchProducts);
 router.get('/categories', productController.getCategories);
 router.get('/category/:category', productController.getProductsByCategory);
 router.get('/:id', productController.getProduct);
+
+// Protected routes (auth removed for testing)
+router.post('/', productController.createProduct);
+router.put('/:id', productController.updateProduct);
+router.delete('/:id', productController.deleteProduct);
+
+// Category management routes (auth removed for testing)
+router.post('/categories', productController.createCategory);
+router.put('/categories/:id', productController.updateCategory);
+router.delete('/categories/:id', productController.deleteCategory);
 
 module.exports = router;

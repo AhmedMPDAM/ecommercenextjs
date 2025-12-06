@@ -77,6 +77,92 @@ class ProductController {
             next(error);
         }
     };
+
+    createProduct = async (req, res, next) => {
+        try {
+            const productData = req.body;
+            const product = await this.productService.createProduct(productData);
+
+            res.status(201).json({
+                status: 'success',
+                data: { product }
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    updateProduct = async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const productData = req.body;
+            const product = await this.productService.updateProduct(id, productData);
+
+            res.status(200).json({
+                status: 'success',
+                data: { product }
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    deleteProduct = async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const result = await this.productService.deleteProduct(id);
+
+            res.status(200).json({
+                status: 'success',
+                message: result.message
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    createCategory = async (req, res, next) => {
+        try {
+            const categoryData = req.body;
+            const category = await this.productService.createCategory(categoryData);
+
+            res.status(201).json({
+                status: 'success',
+                data: { category }
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    updateCategory = async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const categoryData = req.body;
+            const category = await this.productService.updateCategory(id, categoryData);
+
+            res.status(200).json({
+                status: 'success',
+                data: { category }
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    deleteCategory = async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const result = await this.productService.deleteCategory(id);
+
+            res.status(200).json({
+                status: 'success',
+                message: result.message
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
 }
 
 module.exports = ProductController;

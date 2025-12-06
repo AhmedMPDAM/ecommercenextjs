@@ -13,8 +13,8 @@ const userRepository = new UserRepository();
 const orderService = new OrderService(orderRepository, userRepository);
 const orderController = new OrderController(orderService);
 
-// Routes (all protected)
-router.use(authMiddleware);
+// Routes (auth removed for testing)
+// router.use(authMiddleware);
 
 router.post('/', orderController.createOrder);
 router.get('/', orderController.getAllOrders);

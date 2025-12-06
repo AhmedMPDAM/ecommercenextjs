@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { generalLimiter, publicLimiter } = require('./Domain/middleware/rateLimitMiddleware');
 const errorMiddleware = require('./Domain/middleware/errorMiddleware');
 
 // Import routes
@@ -38,12 +39,12 @@ app.get('/health', (req, res) => {
 });
 
 // API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/profiles', profileRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/wishlist', wishlistRoutes);
-app.use('/api/products', productRoutes);
+app.use('/api/auth', authRoutes); // No rate limiting on auth as requested
+app.use('/api/users', generalLimiter, userRoutes);
+app.use('/api/profiles', generalLimiter, profileRoutes);
+app.use('/api/orders', generalLimiter, orderRoutes);
+app.use('/api/wishlist', generalLimiter, wishlistRoutes);
+app.use('/api/products', publicLimiter, productRoutes);
 
 // 404 handler
 app.use((req, res) => {
